@@ -85,3 +85,38 @@ class Solution {
 
     }
 }
+// 347(top k frequent elements)
+// #Given an integer array nums and an integer k, \
+// return the k most frequent elements. You may return the answer in any order.
+//Example 1:
+//Input: nums = [1,1,1,2,2,3], k = 2
+//Output: [1,2
+class Solution {
+    //check the edge case
+    public int[] topKFrequent(int[] nums, int k) {
+        if(k==nums.length){
+            return nums;
+        }
+        // put the numbers in the hashmap and count its frequncy
+        HashMap<Integer,Integer> map = new HashMap<>();
+        for( int s : nums){
+
+            map.put(s,map.getOrDefault(s,0)+1); // counting frequency of each unique numbers
+        }
+        // using the min heap to make sure we have top k frequent element
+        Queue<Integer> heap = new PriorityQueue<>((a,b)->(map.get(a)-map.get(b)));
+        for( int l : map.keySet()){
+            heap.add(l);
+            if(heap.size()>k){
+                heap.poll();
+            }
+        }
+        // return the array of top k frequent element by copying from heap to array
+        int[]result=new int [k];
+        for (int i=0;i<k;i++){
+            result[i]=heap.poll();
+        }
+        return result;
+
+    }
+}
